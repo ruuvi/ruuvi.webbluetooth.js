@@ -4,17 +4,17 @@ class espruinoConsole{
 		this.services = { UART: new nordicUART()};
 	}
 
-	connect(){
+	async connect(){
 		console.log(this.services.UART.getServiceUUID());
 		
 	  try {
 	  	let filters = [];
-  		filters.push({servicesFilter: [this.services.UART.getServiceUUID()]});
+  		filters.push({services: [this.services.UART.getServiceUUID()]});
 
   		let options = {};
   		options.filters = filters;
   		console.log(JSON.stringify(options));
-	    //this.device = await navigator.bluetooth.requestDevice(options);
+	    this.device = await navigator.bluetooth.requestDevice(options);
 		} catch (error) {
 			console.log("Error: " + error);
 		}
