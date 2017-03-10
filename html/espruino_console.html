@@ -1,0 +1,15 @@
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../services/nordic_uart.js"></script>
+    <script type="text/javascript" src="../espruino/espruino_console.js"></script>
+</head>
+
+<body>
+  <script>
+    var espruino = new espruinoConsole();
+  </script>
+
+	<div>
+	<button onclick="espruino.connect();">Connect to a Espruino</button>
+	</div>
+</body>
