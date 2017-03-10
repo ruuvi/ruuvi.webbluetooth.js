@@ -19,7 +19,7 @@ class UARTConsole{
         this.serverHandle = await this.device.gatt.connect();
 
         //Connect nordic UART service to device
-        await this.services.UART.connect(this.serverhandle);
+        await this.services.UART.connect(this.serverHandle);
 
 		} catch (error) {
 			console.log("Error: " + error);
