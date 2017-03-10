@@ -87,7 +87,7 @@ class nordicUART extends serviceInterface {
     this.RX.handle = await this.serviceHandle.getCharacteristic(this.RX.UUID);
     this.RX.handle.addEventListener('characteristicvaluechanged',
       this.RX.onChange);
-    await this.RX.handle.startNotifcations();
+    await this.RX.handle.startNotifications();
     } catch (error) {
     	console.log(this.serviceName + " error: " + error);
     }
