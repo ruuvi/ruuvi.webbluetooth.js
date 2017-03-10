@@ -21,21 +21,13 @@ class serviceInterface{
   }
 
   async writeCharacteristic(uuid, value){
-  	await this.getCharacteristicByUUID(uuid).write(value);
+  	//Service-specific
+  	console.log("Error, Characteristic write must be defined in serive subclass");
   }
 
   async readCharacteristic(uuid){
-  	return await this.getCharacteristicByUUID(uuid).read();
-  }
-
-  /** Register for notifications. Notification data can be read from NotificationLogs. **/
-  async registerNotification(uuid){
-  	await this.getCharacteristicByUUID(uuid).registerNotifications();
-  }
-
-  /** Unregister for notifications, wipe notification log **/
-  async unregisterNotification(uuid){
-  	await this.getCharacteristicByUUID(uuid).registerNotifications();
+  	//Service-specific
+  	console.log("Error, Characteristic read must be defined in serive subclass");
   }
 
   getLog(uuid){

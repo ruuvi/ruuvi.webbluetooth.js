@@ -1,0 +1,25 @@
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../services/nordic_uart.js"></script>
+    <script type="text/javascript" src="../applications/uart_console.js"></script>
+</head>
+
+<body>
+  <script>
+    var uart = new UARTConsole();
+  </script>
+
+	<div>
+	<button onclick="uart.connect();">Connect to a UART</button>
+	</div>
+	<div>
+	<textarea rows="16" cols="50" id="rxarea">
+    
+    </textarea>
+    <input type="text" id="txline">
+    <button onclick="uart.sendTX($('#txline').value);">Send</button>
+	</div>
+	<script type="text/javascript">
+		setInterval(uart.printRX("#rxarea"), 1000);
+	</script>
+</body>

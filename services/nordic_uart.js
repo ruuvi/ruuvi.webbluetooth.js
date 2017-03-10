@@ -42,7 +42,7 @@ class nordicUART extends serviceInterface {
        	if(!sessionStorage.nordicUART_TX){
        		sessionStorage.nordicUART_TX = [];
        	}
-       	sessionStorage.nordicUART_TX.push([sessionStorage.nordicUART_TX.length, new Date.now(), event.target.value]);
+       	sessionStorage.nordicUART_TX.push([new Date.now(), event.target.value]);
        }
 
   	};
@@ -63,7 +63,7 @@ class nordicUART extends serviceInterface {
        	if(!sessionStorage.nordicUART_RX){
        		sessionStorage.nordicUART_RX = [];
        	}
-       	sessionStorage.nordicUART_RX.push([sessionStorage.nordicUART_RX.length, new Date.now(), event.target.value]);
+       	sessionStorage.nordicUART_RX.push([new Date.now(), event.target.value]);
        }
   	};
   }
@@ -87,6 +87,7 @@ class nordicUART extends serviceInterface {
     this.RX.handle = await serviceHandle.getCharacteristic(this.RX.UUID);
     this.RX.handle.addEventListener('characteristicvaluechanged',
       this.RX.onChange);
+    await this.RX.handle.startNotifcations();
     } catch (error) {
     	console.log(this.serviceName + " error: " + error);
     }
@@ -117,15 +118,5 @@ class nordicUART extends serviceInterface {
   		return;
   	}
   	return await characteristic.readValue();
-  }
-
-  /** Register for notifications. Notification data can be read from NotificationLogs. **/
-  async registerNotification(uuid){
-  	await this.getCharacteristicByUUID(uuid).registerNotifications();
-  }
-
-  /** Unregister for notifications, wipe notification log **/
-  async unregisterNotification(uuid){
-  	await this.getCharacteristicByUUID(uuid).registerNotifications();
   }
 }
