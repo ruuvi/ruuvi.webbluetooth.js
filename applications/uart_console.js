@@ -16,16 +16,18 @@ class UARTConsole{
   		console.log(JSON.stringify(options));
   		//Connect to device with Nordic UART service
 	    this.device = await navigator.bluetooth.requestDevice(options);
+        this.serverHandle = await this.device.gatt.connect();
 
         //Connect nordic UART service to device
-        this.services.UART.connect(this.device);
+        await this.services.UART.connect(this.serverhandle);
+
 		} catch (error) {
 			console.log("Error: " + error);
 		}
 	}
 
     printRX(target){
-    	let log = this.services.UART.getLog(this.service.UART.characteristicUUIDs.RX);
+    	let log = this.services.UART.getLog(this.services.UART.characteristicUUIDs.RX);
     	let numLines = log.length;
     	while(RXLine++ < numLines){
     	$(target).append(log[RXLine][0] + ": " + log[RXLine][1] + "\n"); //Print time, value
