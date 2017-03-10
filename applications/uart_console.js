@@ -36,10 +36,10 @@ class UARTConsole{
         //Split line to 20 char chunks
         let runner = 0;
     	while(runner < line.length){
-    		tx = line.substring(runner, runner + 20);
+    		let tx = line.substring(runner, runner + 20);
     		runner += 20;
     		try {
-    		await this.services.UART.writeCharacteristic(this.service.UART.characteristicUUIDs.TX, tx);
+    		await this.services.UART.writeCharacteristic(this.services.UART.characteristicUUIDs.TX, tx);
     		} catch(error) {
     			console.log("Error: " + error);
     		}
