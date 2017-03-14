@@ -1,3 +1,13 @@
+//TODO: Move util function to a separate file
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+  var bufView = new Uint16Array(buf);
+  for (var i=0, strLen=str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
 class accelerationGraph{
 	constructor(){
 		this.device = 0;
@@ -34,7 +44,8 @@ class accelerationGraph{
     	  let numLines = log.length;
     	  if(graph.latestSample++ < numLines){
           let sample = log[graph.latestSample];
-    	  $(target).append(sample[0] + ": X: " + sample[1].getInt16(1) + " Y: " + sample[1].getInt16(3) + " Z: " + sample[1].getInt16(5) + "\n"); //Print time, value
+          let data = new DataView(str2ab(sample[1]));
+    	  $(target).append(sample[0] + ": X: " + data.getInt16(0) + " Y: " + data.getInt16(2) + " Z: " + data.getInt16(4) + "\n"); //Print time, value
         }
       }
     }

@@ -15,6 +15,7 @@ function require(script) {
 
 require("../services/service_interface.js");
 
+//TODO: Move utils to a separate file
 Storage.prototype.setObject = function(key, value) {
     this.setItem(key, JSON.stringify(value));
 }
@@ -22,6 +23,14 @@ Storage.prototype.setObject = function(key, value) {
 Storage.prototype.getObject = function(key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
+}
+
+function ab2str(buf) {
+  //Slice format out of buffer if bytelength is uneven
+  if(buf.byteLength%2){
+    buf = buf.slice(1);
+  }
+  return String.fromCharCode.apply(null, new Uint16Array(buf));
 }
 
 class ruuviIMU extends serviceInterface {
@@ -52,7 +61,7 @@ class ruuviIMU extends serviceInterface {
        		sessionStorage.setObject("RuuviIMU", []);
        	}
         let log = sessionStorage.getObject("RuuviIMU");
-        log.push([new Date(), event.target.value]);
+        log.push([new Date(), ab2str(event.target.value.buffer)]);
        	sessionStorage.setObject("RuuviIMU", log);
        }
 
