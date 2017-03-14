@@ -69,25 +69,25 @@ class nordicUART extends serviceInterface {
   }
 
   getCharacteristicByUUID(uuid){
-  	if(uuid == this.TX.UUID){
-  		return this.TX;
-  	} else if (uuid == this.RX.UUID) {
-        return this.RX;
-  	} else {
+    if(uuid == this.TX.UUID){
+      return this.TX;
+    } else if (uuid == this.RX.UUID) {
+      return this.RX;
+    } else {
         console.log("Error: Unknown UUID");
-  	}
+    }
   }
 
   async connect(serverHandle){
-  	try{
-    this.serviceHandle = await serverHandle.getPrimaryService(this.serviceUUID);
-    this.TX.handle = await this.serviceHandle.getCharacteristic(this.TX.UUID);
-    this.TX.handle.addEventListener('characteristicvaluechanged',
-      this.TX.onChange);
-    this.RX.handle = await this.serviceHandle.getCharacteristic(this.RX.UUID);
-    this.RX.handle.addEventListener('characteristicvaluechanged',
-      this.RX.onChange);
-    await this.RX.handle.startNotifications();
+    try{
+      this.serviceHandle = await serverHandle.getPrimaryService(this.serviceUUID);
+      this.TX.handle = await this.serviceHandle.getCharacteristic(this.TX.UUID);
+      this.TX.handle.addEventListener('characteristicvaluechanged',
+                                       this.TX.onChange);
+      this.RX.handle = await this.serviceHandle.getCharacteristic(this.RX.UUID);
+      this.RX.handle.addEventListener('characteristicvaluechanged',
+                                       this.RX.onChange);
+      await this.RX.handle.startNotifications();
     } catch (error) {
     	console.log(this.serviceName + " error: " + error);
     }
