@@ -10,7 +10,7 @@ class accelerationGraph{
 	  try {
 	  	let filters = [];
   		//filters.push({services: [this.services.IMU.getServiceUUID()]}); TODO: Advertise service on ruuvitag
-                filters.push({name: "Ruuvi"});
+                filters.push({namePrefix: "Ruuvi"});
 
   		let options = {};
   		options.filters = filters;
