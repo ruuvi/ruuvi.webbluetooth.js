@@ -20,7 +20,7 @@ class accelerationGraph{
       { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.1)', lineWidth: 3 }
     ];
 
-    this.chart = new SmoothieChart({minValue:-10000,maxValue:10000,horizontalLines:[{color:'#ffffff',lineWidth:1,value:0},{color:'#880000',lineWidth:2,value:3333},{color:'#880000',lineWidth:2,value:-3333}]});
+    this.chart = new SmoothieChart({minValue:-16000,maxValue:16000,horizontalLines:[{color:'#ffffff',lineWidth:1,value:0},{color:'#880000',lineWidth:2,value:3333},{color:'#880000',lineWidth:2,value:-3333}]});
     this.canvas = document.getElementById(chartID);
     this.series = [new TimeSeries(), new TimeSeries(), new TimeSeries()]; //X, Y, Z
     for (let i = 0; i < this.series.length; i++) {
