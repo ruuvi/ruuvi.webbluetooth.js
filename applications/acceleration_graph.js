@@ -9,10 +9,24 @@ function str2ab(str) {
 }
 
 class accelerationGraph{
-	constructor(){
+	constructor(chartID){
 		this.device = 0;
 		this.services = { IMU: new ruuviIMU()};
-        this.latestSample = 0;
+    this.latestSample = 0;
+
+    this.seriesOptions = [
+      { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.1)', lineWidth: 3 },
+      { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.1)', lineWidth: 3 },
+      { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.1)', lineWidth: 3 }
+    ];
+
+    this.chart = new SmoothieChart({minValue:-10000,maxValue:10000,horizontalLines:[{color:'#ffffff',lineWidth:1,value:0},{color:'#880000',lineWidth:2,value:3333},{color:'#880000',lineWidth:2,value:-3333}]});
+    this.canvas = document.getElementById(chartID);
+    this.series = [new TimeSeries(), new TimeSeries(), new TimeSeries()]; //X, Y, Z
+    for (let i = 0; i < this.series.length; i++) {
+      this.chart.addTimeSeries(this.series[i], this.seriesOptions[i]);
+    }
+    this.chart.streamTo(this.canvas, 150);
 	}
 
 	async connect(){
@@ -38,14 +52,18 @@ class accelerationGraph{
 		}
 	}
 
-    printSample(graph, target){
+    printSample(graph){
       if(graph.device){
     	  let log = graph.services.IMU.getLog(graph.services.IMU.characteristicUUIDs.IMU);
     	  let numLines = log.length;
-    	  if(graph.latestSample++ < numLines){
+    	  while(graph.latestSample < numLines){
           let sample = log[graph.latestSample];
+          let time = new Date(sample[0])
           let data = new DataView(str2ab(sample[1]));
-    	  $(target).append(sample[0] + ": X: " + data.getInt16(0) + " Y: " + data.getInt16(2) + " Z: " + data.getInt16(4) + "\n"); //Print time, value
+          graph.series[0].append(time, data.getInt16(0));
+          graph.series[1].append(time, data.getInt16(2));
+          graph.series[2].append(time, data.getInt16(4));
+          graph.latestSample++;
         }
       }
     }
