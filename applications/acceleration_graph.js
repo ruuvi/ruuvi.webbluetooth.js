@@ -33,7 +33,8 @@ class accelerationGraph{
     	  let log = graph.services.IMU.getLog(graph.services.IMU.characteristicUUIDs.IMU);
     	  let numLines = log.length;
     	  if(graph.latestSample++ < numLines){
-    	  $(target).append(log[RXLine][0] + ": " + log[RXLine][1] + "\n"); //Print time, value
+          let sample = log[graph.latestSample];
+    	  $(target).append(sample[0] + ": X: " + sample[1].getInt16(1) + " Y: " + sample[1].getInt16(3) + " Z: " + sample[1].getInt16(5) + "\n"); //Print time, value
         }
       }
     }
