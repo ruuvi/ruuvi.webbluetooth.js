@@ -30,7 +30,7 @@ class nordicUART extends serviceInterface {
         UUID: this.characteristicUUIDs.TX,
         name: "TX",
         value: 0,
-        notificationLog: sessionStorage.nordicUART_TX,
+        log: sessionStorage.nordicUART_TX,
         permissions: {
         "read":  0,
         "write": 1,
