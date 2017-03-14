@@ -29,6 +29,7 @@ class accelerationGraph{
 	}
 
     printSample(target){
+        if(!this.device) return;
     	let log = this.services.IMU.getLog(this.services.IMU.characteristicUUIDs.IMU);
     	let numLines = log.length;
     	if(this.latestSample++ < numLines){
