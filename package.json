@@ -1,0 +1,23 @@
+{
+  "name": "web-bluetooth",
+  "version": "0.0.1",
+  "description": "Web bluetooth tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ojousima/web-bluetooth.git"
+  },
+  "keywords": [
+    "ruuvi",
+    "web-bluetooth"
+  ],
+  "author": "Otso Jousimaa",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/ojousima/web-bluetooth/issues"
+  },
+  "homepage": "https://github.com/ojousima/web-bluetooth#readme"
+}
