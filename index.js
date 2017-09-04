@@ -1,5 +1,4 @@
 "use strict"
-let supportCheck = require("./util/support.js")
 
 let connect = async function(deviceNamePrefix){
   let handle = {};
@@ -13,7 +12,6 @@ let connect = async function(deviceNamePrefix){
     } catch (error) {
       console.log("Error: " + error);
     }
-  }
   return handle;
 }
 
