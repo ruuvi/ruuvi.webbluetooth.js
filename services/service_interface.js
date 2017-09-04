@@ -16,7 +16,17 @@ class serviceInterface{
 
   /** Return list of characteristic UUIDs **/
   getCharacteristicUUIDs(){
-  	return this.characteristicUUIDs;
+    let list = [];
+    for (key in this.characteristicUUIDs) {
+      // Do not include prototype properties
+      //if (Object.prototype.hasOwnProperty.call(foo, key)) {
+      //  doSomething(key);
+      //}
+      if ({}.hasOwnProperty.call(this.characteristicUUIDs, key)) {
+        list.push(this.characteristicUUIDs[key]);
+      }
+    }
+  	return ;
   }
 
   /** Return list of characteristic names **/

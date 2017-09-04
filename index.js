@@ -44,8 +44,6 @@ let connect = async function(deviceNamePrefix){
       for(const iface of serviceList) {
         optionalServices.push(iface.getServiceUUID());
       }
-      //XXX test invalid
-      optionalServices.push("0x1234");
       options.filters = filters;
       options.optionalServices = optionalServices;
       //options.acceptAllDevices = true;
