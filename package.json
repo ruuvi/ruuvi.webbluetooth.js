@@ -1,5 +1,5 @@
 {
-  "name": "web-bluetooth",
+  "name": "ruuvi.webbluetooth.js",
   "version": "0.0.1",
   "description": "Web bluetooth tools",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ojousima/web-bluetooth.git"
+    "url": "git+https://github.com/ruuvi/ruuvi.webbluetooth.js.git"
   },
   "keywords": [
     "ruuvi",
@@ -17,7 +17,7 @@
   "author": "Otso Jousimaa",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/ojousima/web-bluetooth/issues"
+    "url": "https://github.com/ruuvi/ruuvi.webbluetooth.js/issues"
   },
-  "homepage": "https://github.com/ojousima/web-bluetooth#readme"
+  "homepage": "https://github.com/ruuvi/ruuvi.webbluetooth.js#readme"
 }
