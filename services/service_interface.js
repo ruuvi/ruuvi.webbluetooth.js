@@ -1,3 +1,7 @@
+/*jshint 
+    node: true
+ */
+"use strict";
 class serviceInterface{
 
   /** Return UUID of service **/
@@ -94,3 +98,4 @@ class serviceInterface{
   	console.log("Error, disconnect must be defined in serive subclass");
   }
 }
+module.exports = serviceInterface;
