@@ -1,4 +1,8 @@
-require("./service_interface.js");
+/*jshint 
+    node: true
+ */
+"use strict";
+var serviceInterface = require("./service_interface.js");
 
 class nordicUART extends serviceInterface {
 
@@ -15,16 +19,12 @@ class nordicUART extends serviceInterface {
         UUID: this.characteristicUUIDs.TX,
         name: "TX",
         value: 0,
-        callback: 0; // TODO: Can permissions be read from characteristic?
+        callback: 0, // TODO: Can permissions be read from characteristic?
         permissions: {
         "read":  0,
         "write": 1,
         "notify": 0,
         "indicate": 0
-       },
-       onChange: function(event)
-       {
-         //No implementation needed
        }
   	};
   	this.RX = {
@@ -38,9 +38,10 @@ class nordicUART extends serviceInterface {
         "write": 0,
         "notify": 1,
         "indicate": 0
-       },
-
+       }
   	};
     this.characteristics = [this.TX, this.RX];
   }
 }
+
+module.exports = nordicUART;
