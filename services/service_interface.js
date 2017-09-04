@@ -20,27 +20,76 @@ class serviceInterface{
   	return this.characteristicNames;
   }
 
+  getCharacteristicByUUID(uuid){
+    for(characteristic in this.characteristics){
+      if(characteristic.uuid == uuid)
+        return characteristic;
+    }
+    return 0; 
+  }
+
+  /** Attempts to write value to characteristic **/
   async writeCharacteristic(uuid, value){
-  	//Service-specific
-  	console.log("Error, Characteristic write must be defined in serive subclass");
+    let characteristic = this.getCharacteristicByUUID(uuid);
+    if(!characteristic || !characteristic.permissions.write){
+      console.log("Error: could not write to " + uuid);
+      return;
+    }
+    await characteristic.handle.writeValue(value);
   }
 
+
+  /** Will return value of characteristic **/
   async readCharacteristic(uuid){
-  	//Service-specific
-  	console.log("Error, Characteristic read must be defined in serive subclass");
+    let characteristic = this.getCharacteristicByUUID(uuid);
+    if(!characteristic || !characteristic.permissions.read){
+      console.log("Error: could not read " + uuid);
+      return;
+    }
+    return await characteristic.readValue();
   }
 
-  getLog(uuid){
-  	//Service-specific
-  	console.log("Error, getLog must be defined in serive subclass");
+  /** Register to notifications from service. Call callback on data. **/
+  async registerNotifications(uuid, callback){
+    let characteristic = this.getCharacteristicByUUID(uuid);
+    if(!characteristic || !characteristic.permissions.notify){
+      console.log("Error: could not register notifications for " + uuid);
+      return;
+    }
+    characteristic.callback = callback;
+    await characteristic.startNotifications();  
   }
 
-  connect(){
-  	//Service-specific
-  	console.log("Error, connect must be defined in serive subclass");
+  /**
+   *  Initializes service.
+   */
+  async init(serverHandle){
+    try{
+      this.serviceHandle = await serverHandle.getPrimaryService(this.serviceUUID);
+      let characteristics = this.getCharacteristicUUIDs();
+      for(uuid in characteristics){
+        let characteristic = this.getCharacteristicByUUID(uuid);
+        characteristic.handle = await this.serviceHandle.getCharacteristic(this.TX.UUID);
+        characteristic.onChange = function(event) 
+        {
+          if(this.callback){
+            callback(event.target.value);
+          }
+        }
+        //TODO: Verify scope of "this" after bind
+        characteristic.onChange.bind(characteristic);
+        characteristic.handle.addEventListener('characteristicvaluechanged',
+                                                characteristic.onChange);
+      }  
+    } catch (error) {
+      console.log(this.serviceName + " error: " + error);
+    }
   }
 
-  disconnect(){
+  /**
+   *  Releases any connection handles as applicable
+   */
+  async deinit(){
   	//Service-specific
   	console.log("Error, disconnect must be defined in serive subclass");
   }

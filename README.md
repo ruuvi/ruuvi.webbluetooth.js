@@ -1,5 +1,5 @@
 # web-bluetooth
-Web bluetooth libraries and pages
+Web bluetooth connectivity libraries
 
 # Folders
 ## services
