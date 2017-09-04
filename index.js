@@ -46,6 +46,7 @@ let connect = async function(deviceNamePrefix){
       }
       options.filters = filters;
       options.optionalServices = optionalServices;
+      options.acceptAllDevices = true;
       let device = await navigator.bluetooth.requestDevice(options);
       handle = await device.gatt.connect();
       console.log('Getting Services...');
