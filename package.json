@@ -1,6 +1,6 @@
 {
   "name": "ruuvi.webbluetooth.js",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Web bluetooth tools",
   "main": "index.js",
   "scripts": {
