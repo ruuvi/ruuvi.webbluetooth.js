@@ -23,7 +23,7 @@ let initServices = async function(serverHandle, services){
             //Initialise service
             await iface.init(handle);
             //Add to list of services
-            let name = iface.getName();
+            let name = iface.getServiceName();
             servicesAvailable[name] = service;
           }
         }

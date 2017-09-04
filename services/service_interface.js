@@ -26,7 +26,7 @@ class serviceInterface{
 
   getCharacteristicByUUID(uuid){
     for(characteristic in this.characteristics){
-      if(characteristic.uuid == uuid)
+      if(characteristic.UUID == uuid)
         return characteristic;
     }
     return 0; 
