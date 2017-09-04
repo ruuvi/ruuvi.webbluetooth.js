@@ -17,12 +17,12 @@ let initServices = async function(serverHandle, services){
       for (const service of services) {
         //If connection includes a known service
         let uuid = service.uuid;
-        for(const interface of serviceList) {
-          if(uuid == interface.getServiceUUID()){
+        for(const iface of serviceList) {
+          if(uuid == iface.getServiceUUID()){
             //Initialise service
-            await interface.init(handle);
+            await iface.init(handle);
             //Add to list of services
-            let name = interface.getName();
+            let name = iface.getName();
             servicesAvailable[name] = service;
           }
         }
