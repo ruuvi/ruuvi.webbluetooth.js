@@ -24,7 +24,7 @@ let initServices = async function(serverHandle, services){
             await iface.init(handle);
             //Add to list of services
             let name = iface.getServiceName();
-            servicesAvailable[name] = service;
+            servicesAvailable[name] = iface;
           }
         }
       }
@@ -50,6 +50,7 @@ let connect = async function(deviceNamePrefix){
       let device = await navigator.bluetooth.requestDevice(options);
       handle = await device.gatt.connect();
       console.log('Getting Services...');
+      //Get available services
       //Work around bug in web blue implementation which fails on getting all services
       let services = [];
       for(const iface of serviceList) {
