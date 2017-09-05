@@ -71,7 +71,7 @@ class serviceInterface{
       return;
     }
     characteristic.callback = callback;
-    await characteristic.startNotifications();  
+    await characteristic.handle.startNotifications();  
   }
 
   /**
