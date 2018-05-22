@@ -2,29 +2,28 @@
     node: true
  */
 "use strict";
-class serviceInterface{
+class serviceInterface {
   /** Convert 16- or 32-bit UUID into 128-bit UUID string **/
   convertTo128UUID(short) {
     return (short.toString(16) + "-0000-1000-8000-00805F9B34FB".toLowerCase()).padStart(36, "0");
   }
 
   /** Return UUID of service **/
-  getServiceUUID(){
-    if(typeof(this.serviceUUID) === "string"){
-  	  return this.serviceUUID;
-    }
-    else {
+  getServiceUUID() {
+    if (typeof(this.serviceUUID) === "string") {
+      return this.serviceUUID;
+    } else {
       return this.convertTo128UUID(this.serviceUUID);
     }
   }
 
   /** Return name of service **/
-  getServiceName(){
-  	return this.serviceName;
+  getServiceName() {
+    return this.serviceName;
   }
 
   /** Return list of characteristic UUIDs **/
-  getCharacteristicUUIDs(){
+  getCharacteristicUUIDs() {
     let list = [];
     for (let key in this.characteristicUUIDs) {
       // Do not include prototype properties
@@ -35,26 +34,26 @@ class serviceInterface{
         list.push(this.characteristicUUIDs[key]);
       }
     }
-  	return list;
+    return list;
   }
 
   /** Return list of characteristic names **/
-  getCharacteristicNames(){
-  	return this.characteristicNames;
+  getCharacteristicNames() {
+    return this.characteristicNames;
   }
 
-  getCharacteristicByUUID(uuid){
-    for(let ii = 0; ii < this.characteristics.length; ii++){
-      if(this.characteristics[ii].UUID == uuid)
+  getCharacteristicByUUID(uuid) {
+    for (let ii = 0; ii < this.characteristics.length; ii++) {
+      if (this.characteristics[ii].UUID == uuid)
         return this.characteristics[ii];
     }
-    return 0; 
+    return 0;
   }
 
   /** Attempts to write value to characteristic **/
-  async writeCharacteristic(uuid, value){
+  async writeCharacteristic(uuid, value) {
     let characteristic = this.getCharacteristicByUUID(uuid);
-    if(!characteristic || !characteristic.permissions.write){
+    if (!characteristic || !characteristic.permissions.write) {
       console.log("Error: could not write to " + uuid);
       return;
     }
@@ -63,9 +62,9 @@ class serviceInterface{
 
 
   /** Will return value of characteristic **/
-  async readCharacteristic(uuid){
+  async readCharacteristic(uuid) {
     let characteristic = this.getCharacteristicByUUID(uuid);
-    if(!characteristic || !characteristic.permissions.read){
+    if (!characteristic || !characteristic.permissions.read) {
       console.log("Error: could not read " + uuid);
       return;
     }
@@ -73,39 +72,44 @@ class serviceInterface{
   }
 
   /** Register to notifications from service. Call callback on data. **/
-  async registerNotifications(uuid, callback){
+  async registerNotifications(uuid, callback) {
     let characteristic = this.getCharacteristicByUUID(uuid);
-    if(!characteristic || !characteristic.permissions.notify){
+    if (!characteristic || !characteristic.permissions.notify) {
       console.log("Error: could not register notifications for " + uuid);
       return;
     }
     characteristic.callback = callback;
-    await characteristic.handle.startNotifications();  
+    await characteristic.handle.startNotifications();
   }
 
   /**
    *  Initializes service.
    */
-  async init(serverHandle){
-    try{
+  async init(serverHandle) {
+    try {
       this.serviceHandle = await serverHandle.getPrimaryService(this.serviceUUID);
       let characteristics = this.getCharacteristicUUIDs();
-      for(let ii = 0; ii < characteristics.length; ii++){
+      for (let ii = 0; ii < characteristics.length; ii++) {
         let characteristic = this.getCharacteristicByUUID(characteristics[ii]);
         //Continue if characteristic is not known in service
-        if(!characteristic) {continue;}
-        characteristic.handle = await this.serviceHandle.getCharacteristic(characteristic.UUID);
-        //Callback can be added later
-        characteristic.onChange = function(event) 
-        {
-          if(this.callback){
-            this.callback(event.target.value);
-          }
+        if (!characteristic) {
+          continue;
         }
-        //Bind "this" to characteristic
-        characteristic.handle.addEventListener('characteristicvaluechanged',
-                                                characteristic.onChange.bind(characteristic));
-      }  
+        try {
+          characteristic.handle = await this.serviceHandle.getCharacteristic(characteristic.UUID);
+          //Callback can be added later
+          characteristic.onChange = function(event) {
+            if (this.callback) {
+              this.callback(event.target.value);
+            }
+          }
+          //Bind "this" to characteristic
+          characteristic.handle.addEventListener('characteristicvaluechanged',
+            characteristic.onChange.bind(characteristic));
+        } catch (error) {
+          console.log(this.characteristic.name + " error: " + error);
+        }
+      }
     } catch (error) {
       console.log(this.serviceName + " error: " + error);
     }
@@ -114,9 +118,9 @@ class serviceInterface{
   /**
    *  Releases any connection handles as applicable
    */
-  async deinit(){
-  	//Service-specific
-  	console.log("Error, disconnect must be defined in service subclass");
+  async deinit() {
+    //Service-specific
+    console.log("Error, disconnect must be defined in service subclass");
   }
 }
 module.exports = serviceInterface;
