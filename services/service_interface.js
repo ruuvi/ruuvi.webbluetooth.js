@@ -3,10 +3,19 @@
  */
 "use strict";
 class serviceInterface{
+  /** Convert 16- or 32-bit UUID into 128-bit UUID string **/
+  convertTo128UUID(short) {
+    return (short.toString(16) + "-0000-1000-8000-00805F9B34FB".toLowerCase()).padStart(36, "0");
+  }
 
   /** Return UUID of service **/
   getServiceUUID(){
-  	return this.serviceUUID;
+    if(typeof(this.serviceUUID === "string")){
+  	  return this.serviceUUID;
+    }
+    else {
+      return convertTo128UUID(this.serviceUUID);
+    }
   }
 
   /** Return name of service **/
