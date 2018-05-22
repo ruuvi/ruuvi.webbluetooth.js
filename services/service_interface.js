@@ -68,7 +68,7 @@ class serviceInterface {
       console.log("Error: could not read " + uuid);
       return "Error";
     }
-    return await characteristic.readValue();
+    return await characteristic.handle.readValue();
   }
 
   /** Register to notifications from service. Call callback on data. **/
