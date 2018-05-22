@@ -14,7 +14,7 @@ class serviceInterface{
   	  return this.serviceUUID;
     }
     else {
-      return convertTo128UUID(this.serviceUUID);
+      return this.convertTo128UUID(this.serviceUUID);
     }
   }
 
