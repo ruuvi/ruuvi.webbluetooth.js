@@ -15,71 +15,77 @@ var serviceList = [uart, dis, battery];
 /** Initialized services **/
 var servicesAvailable = {};
 
-let initServices = async function(serverHandle, services){
-  try{
+let initServices = async function(serverHandle, services) {
+  try {
     console.log('Initializing services');
-      //Search through list of known services
-      for (const service of services) {
-        //If connection includes a known service
-        let uuid = service.uuid;
-        for(const iface of serviceList) {
-          if(uuid == iface.getServiceUUID()){
-            //Initialise service
-            await iface.init(handle);
-            //Add to list of services
-            let name = iface.getServiceName();
-            servicesAvailable[name] = iface;
-          }
+    //Search through list of known services
+    for (const service of services) {
+      //If connection includes a known service
+      let uuid = service.uuid;
+      for (const iface of serviceList) {
+        if (uuid == iface.getServiceUUID()) {
+          //Initialise service
+          await iface.init(handle);
+          //Add to list of services
+          let name = iface.getServiceName();
+          servicesAvailable[name] = iface;
         }
       }
-  } catch(error) {
+    }
+  } catch (error) {
     console.log("Error: " + error);
   }
 };
 
-let connect = async function(deviceNamePrefix){
+let connect = async function(deviceNamePrefix) {
 
   try {
-      let filters = [];
-      filters.push({namePrefix: deviceNamePrefix});
-      let options = {};
-      /** List services we can use **/
-      let optionalServices = [];
-      for(const iface of serviceList) {
-        optionalServices.push(iface.getServiceUUID());
-      }
-      options.filters = filters;
-      options.optionalServices = optionalServices;
-      //options.acceptAllDevices = true;
-      let device = await navigator.bluetooth.requestDevice(options);
-      handle = await device.gatt.connect();
-      console.log('Getting Services...');
-      //Get available services
-      //Work around bug in web blue implementation which fails on getting all services
-      let services = [];
-      for(const iface of serviceList) {
+    let filters = [];
+    filters.push({
+      namePrefix: deviceNamePrefix
+    });
+    let options = {};
+    /** List services we can use **/
+    let optionalServices = [];
+    for (const iface of serviceList) {
+      optionalServices.push(iface.getServiceUUID());
+    }
+    options.filters = filters;
+    options.optionalServices = optionalServices;
+    //options.acceptAllDevices = true;
+    let device = await navigator.bluetooth.requestDevice(options);
+    handle = await device.gatt.connect();
+    console.log('Getting Services...');
+    //Get available services
+    //Work around bug in web blue implementation which fails on getting all services
+    let services = [];
+    for (const iface of serviceList) {
+      try {
         let service = await handle.getPrimaryService(iface.getServiceUUID());
-        if(service){
+        if (service) {
           services.push(service);
         }
+      } catch (error) {
+        // Service not found on this tag
       }
-      
-      await initServices(handle, services);
-    } catch (error) {
-      console.log("Error: " + error);
     }
+
+    await initServices(handle, services);
+  } catch (error) {
+    console.log("Error: " + error);
+  }
   return handle;
 };
 
-let disconnect = async function(serverHandle){
+let disconnect = async function(serverHandle) {
   try {
     serverHandle.disconnect();
-  } catch(error) {
+  } catch (error) {
     console.log("Error: " + error);
   }
 };
 
-let getServices = function(){
+let getServices = function() {
   return servicesAvailable;
 };
 
@@ -91,7 +97,7 @@ let getServices = function(){
  *  getServices(connection)   Returns array of service objects of given connection.
  **/
 module.exports = {
-  connect           : connect,
-  disconnect        : disconnect,
-  getServices       : getServices
+  connect: connect,
+  disconnect: disconnect,
+  getServices: getServices
 };
