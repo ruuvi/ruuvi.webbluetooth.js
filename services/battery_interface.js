@@ -27,6 +27,7 @@ class batteryService extends serviceInterface {
                 "indicate": 0
             }
         };
+        this.characteristics = [this.Battery];
     }
 }
 

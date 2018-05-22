@@ -94,10 +94,8 @@ class deviceInformation extends serviceInterface {
         "notify": 0,
         "indicate": 0
        },
-       onRead: function(){
-        this.log = this.handle.value;
-       }
     };
+    this.characteristics = [this.Manufacturer, this.Model, this.Serial, this.Hardware, this.Software, this.Firmware];
   }
 }
 
