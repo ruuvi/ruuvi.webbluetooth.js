@@ -66,7 +66,7 @@ class serviceInterface {
     let characteristic = this.getCharacteristicByUUID(uuid);
     if (!characteristic || !characteristic.permissions.read) {
       console.log("Error: could not read " + uuid);
-      return;
+      return "Error";
     }
     return await characteristic.readValue();
   }
@@ -107,7 +107,7 @@ class serviceInterface {
           characteristic.handle.addEventListener('characteristicvaluechanged',
             characteristic.onChange.bind(characteristic));
         } catch (error) {
-          console.log(this.characteristic.name + " error: " + error);
+          console.log(characteristic.name + " error: " + error);
         }
       }
     } catch (error) {
