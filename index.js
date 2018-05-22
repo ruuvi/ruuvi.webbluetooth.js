@@ -2,8 +2,12 @@
     node: true
  */
 "use strict";
-var NORDIC_UART = require("./services/nordic_uart.js");
-var uart = new NORDIC_UART();
+const NORDIC_UART = require("./services/nordic_uart.js");
+const BATTERY = require("./services/battery_interface.js");
+const DIS = require("./services/device_information.js");
+const uart = new NORDIC_UART();
+const dis = new DIS();
+const batt = new BATTERY();
 
 var handle = {};
 /** Known services **/
