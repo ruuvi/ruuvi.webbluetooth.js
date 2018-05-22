@@ -7,11 +7,11 @@ const BATTERY = require("./services/battery_interface.js");
 const DIS = require("./services/device_information.js");
 const uart = new NORDIC_UART();
 const dis = new DIS();
-const batt = new BATTERY();
+const battery = new BATTERY();
 
 var handle = {};
 /** Known services **/
-var serviceList = [uart];
+var serviceList = [uart, dis, battery];
 /** Initialized services **/
 var servicesAvailable = {};
 
