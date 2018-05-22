@@ -107,7 +107,7 @@ class serviceInterface{
    */
   async deinit(){
   	//Service-specific
-  	console.log("Error, disconnect must be defined in serive subclass");
+  	console.log("Error, disconnect must be defined in service subclass");
   }
 }
 module.exports = serviceInterface;

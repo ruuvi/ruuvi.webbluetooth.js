@@ -2,7 +2,7 @@
     node: true
  */
 "use strict";
-var serviceInterface = require("./service_interface.js");
+const serviceInterface = require("./service_interface.js");
 
 class nordicUART extends serviceInterface {
 
