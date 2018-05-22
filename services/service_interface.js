@@ -10,7 +10,7 @@ class serviceInterface{
 
   /** Return UUID of service **/
   getServiceUUID(){
-    if(typeof(this.serviceUUID === "string")){
+    if(typeof(this.serviceUUID) === "string"){
   	  return this.serviceUUID;
     }
     else {
